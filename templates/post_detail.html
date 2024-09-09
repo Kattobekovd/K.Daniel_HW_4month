@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<img src="{{ post_id.image.url }}" alt="{{ post_id.title }}">
+<h1>{{post_id.title}}</h1>
+<p>ЦЕНА: {{ post_id.price }}сом
+СКИДКА: {{post_id.discount}}%</p>
+<p>АВТОР КНИГИ: {{post_id.author_the_book}}</p>
+<p>ЖАНР: {{post_id.genre}}</p>
+<p>{{post_id.description}}</p>
+<a href="{{post_id.url_book}}"> Перейти на сайт </a>
+<p>{{post_id.email}}</p>
+
+</body>
+</html>
