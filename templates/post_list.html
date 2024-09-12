@@ -1,23 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% include 'header.html' %}
 
-<h1>Магазин книг</h1>
+<style>
+  body {
+    background-color: #e6e6a9;
+  }
+</style>
 
-{% for i in post_object %}
+<h1 class="text-center">Магазин книг</h1>
 
-<h2>{{i.title }}</h2>
-<img src="{{ i.image.url }} "alt="" width="380" height="320">
-<p>ЦЕНА: {{ i.price }}сом</p>
-<p>АВТОР КНИГИ: {{ i.author_the_book }}</p>
-<p>ЖАНР: {{ i.genre }}</p>
-<a href='/post_list/{{ i.id }}/'>Подробнее</a>
+<div class="d-flex justify-content-center flex-wrap">
+  {% for i in post_object %}
+    <div class="card m-3 text-center" style="width: 18rem; background-color: #d5b6dd;">
+      <img src="{{ i.image.url }}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{ i.title }}</h5>
+        <p>ЦЕНА: {{ i.price }} сом</p>
+        <p class="card-text">АВТОР КНИГИ: {{ i.author_the_book }}</p>
+        <p>ЖАНР: {{ i.genre }}</p>
+        <a href="/post_list/{{ i.id }}/" class="btn btn-primary">Подробнее</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 
-{% endfor %}
-
-</body>
-</html>
+{% include 'footer.html' %}

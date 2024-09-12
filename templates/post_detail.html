@@ -1,19 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% include 'header.html' %}
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <style>
+      body {
+        background-color: #e6e6a9; /* Ваш общий задний фон */
+      }
+    </style>
 </head>
 <body>
-<img src="{{ post_id.image.url }}" alt="{{ post_id.title }}">
-<h1>{{post_id.title}}</h1>
-<p>ЦЕНА: {{ post_id.price }}сом
-СКИДКА: {{post_id.discount}}%</p>
-<p>АВТОР КНИГИ: {{post_id.author_the_book}}</p>
-<p>ЖАНР: {{post_id.genre}}</p>
-<p>{{post_id.description}}</p>
-<a href="{{post_id.url_book}}"> Перейти на сайт </a>
-<p>{{post_id.email}}</p>
+    <div class="container">
+        <img src="{{ post_id.image.url }}" alt="{{ post_id.title }}">
+        <h1 class="text-center">{{ post_id.title }}</h1>
+        <p>ЦЕНА: {{ post_id.price }} сом</p>
+        <p>СКИДКА: {{ post_id.discount }}%</p>
+        <p>АВТОР КНИГИ: {{ post_id.author_the_book }}</p>
+        <p>ЖАНР: {{ post_id.genre }}</p>
+        <p>{{ post_id.description }}</p>
+        <a href="{{ post_id.url_book }}">Перейти на сайт</a>
+        <p>{{ post_id.email }}</p>
 
+        <div>
+            {% for j in post_id.reviews.all %}
+                <p>
+                    <h3>{{ j.text_review }}</h3>
+                </p>
+                <p>{{ j.created_at }}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center flex-wrap">
+      {% for i in post_object %}
+        <div class="card m-3 text-center" style="width: 18rem; background-color: #d5b6dd;">
+          <img src="{{ i.image.url }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ i.title }}</h5>
+            <p>ЦЕНА: {{ i.price }} сом</p>
+            <p class="card-text">АВТОР КНИГИ: {{ i.author_the_book }}</p>
+            <p>ЖАНР: {{ i.genre }}</p>
+            <a href="/post_list/{{ i.id }}/" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% include 'footer.html' %}
 </body>
 </html>
