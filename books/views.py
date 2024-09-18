@@ -1,85 +1,93 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from datetime import datetime
+from django.views import generic
 from . import models, forms
+
+# Функция на кнопку Поиск по названием книг
+class SearchView(generic.ListView):
+    template_name = 'post_list.html'
+    context_object_name = 'post_object'
+    paginate_by = 10 #Это количество постов на одну страницу
+
+    def get_queryset(self):
+        return models.Book.objects.filter(title__icontains=self.request.GET.get('q')).order_by('id')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q')
+        return context
 
 
 #Редактирование crud, получение список постов
-def Book_list_edit_view(request):
-    if request.method == 'GET':
-        post_object = models.Book.objects.all()
-        return render(
-            request,
-            'crud/book_list_edit.html',
-            {'post_object': post_object}
-        )
+class BookUpdateListView(generic.ListView):
+    template_name = 'crud/book_list_edit.html'
+    context_object_name = 'post_object'
+    model = models.Book
+
+    def get_queryset(self):
+        return self.model.objects.all().order_by('id')
+
+
 #ЗДесь функция на редактирование обявлений из списка
-def update_book_view(request, id):
-    post_id = get_object_or_404(models.Book, id=id)
-    if request.method == 'POST':
-        form = forms.BookForm(request.POST, instance=post_id)
-        if form.is_valid():
-            form.save()
-            return HttpResponse('Данные успешно Отредактирована!! <a href = /post_list/ > На список обьявлений книг </a>')
-    else:
-        form = forms.BookForm(instance=post_id)
-    return render(
-        request,
-        template_name='crud/book_update.html',
-        context={'form': form, 'post_id': post_id}
-    )
+class BookEditView(generic.UpdateView):
+    template_name = 'crud/book_update.html'
+    form_class = forms.BookForm
+    success_url = '/post_list_edit/'
+
+    def get_object(self, **kwargs):
+        post_id = self.kwargs.get('id')
+        return get_object_or_404(models.Book, pk=post_id)
+
 
 #Удаление crud, здесь мы получаем листы
-def Book_list_delete_view(request):
-    if request.method == 'GET':
-        post_object = models.Book.objects.all()
-        return render(
-            request,
-            'crud/book_list_delete.html',
-            {'post_object': post_object}
-        )
+class BookListDeleteView(generic.ListView):
+    template_name = 'crud/book_list_delete.html'
+    context_object_name = 'post_object'
+    model = models.Book
 
-# здесь функция на удаление постов из листа
-def Book_drop_view(request, id):
-    post_id = get_object_or_404(models.Book, id=id)
-    post_id.delete()
-    return HttpResponse('Данные успешно Удалены!! <a href = /post_list/ > На список обьявлений книг </a>')
+    def get_queryset(self):
+        return self.model.objects.all().order_by('id')
+
+# здесь происходит удаление с подтверждением
+class BookDropDeleteView(generic.DeleteView):
+    template_name = 'crud/confirm_delete.html'
+    success_url = '/post_list/'
+
+    def get_object(self, **kwargs):
+        post_id = self.kwargs.get('id')
+        return get_object_or_404(models.Book, id=post_id)
 
 
 #Добавление crud
-def creat_book_view(request):
-    if request.method == 'POST':
-        form = forms.BookForm(request.POST,request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponse('Данные успешно отправлены!! <a href = /post_list/ > На список обьявлений книг </a>')
-    else:
-        form = forms.BookForm()
-    return render(
-        request,
-        'crud/create_book.html',
-        {'form':form}
-    )
+class BookCreateView(generic.CreateView):
+    template_name = 'crud/create_book.html'
+    form_class = forms.BookForm
+    success_url = '/post_list/'
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super(BookCreateView, self).form_valid(form=form)
 
 
-def post_detail(request, id):
-    if request.method == 'GET':
-        post_id = get_object_or_404(models.Book, id=id)
-        return render(
-            request,
-            template_name='post_detail.html',
-            context={'post_id': post_id}
-        )
+# Вывод полной информации
+class PostDetailView(generic.DetailView):
+    template_name = 'post_detail.html'
+    context_object_name = 'post_id'
+
+    def get_object(self, **kwargs):
+        post_id = self.kwargs.get('id')
+        return get_object_or_404(models.Book, id=post_id)
 
 
-def post_list(request):
-    if request.method == 'GET':
-        post_object = models.Book.objects.all()
-        return render(
-            request,
-            template_name='post_list.html',
-            context={'post_object': post_object}
-        )
+# Вывод не полной информации
+class PostLIstView(generic.ListView):
+    template_name = 'post_list.html'
+    context_object_name = 'post_object'
+    model = models.Book
+
+    def get_queryset(self):
+        return self.model.objects.all().order_by('id')
 
 
 def about_me_view(request):

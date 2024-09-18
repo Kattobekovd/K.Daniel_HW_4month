@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     {% include 'header.html' %}
     <meta charset="UTF-8">
@@ -13,7 +13,9 @@
 </head>
 <body>
     <div class="container">
+        <center/>
         <img src="{{ post_id.image.url }}" alt="{{ post_id.title }}">
+        </center>
         <h1 class="text-center">{{ post_id.title }}</h1>
         <p>ЦЕНА: {{ post_id.price }} сом</p>
         <p>СКИДКА: {{ post_id.discount }}%</p>
