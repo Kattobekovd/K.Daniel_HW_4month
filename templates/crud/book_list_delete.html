@@ -1,7 +1,7 @@
 {% include '../header.html' %}
 <div class="d-flex justify-content-center flex-wrap">
   {% for i in post_object %}
-    <div class="card m-3 text-center" style="width: 18rem; background-color: #d5b6dd;">
+    <div class="card m-3 text-center" style="width: 18rem; background-color: #ecdfdf;">
       <div class="card-body">
         <h5 class="card-title">{{ i.title }}</h5>
         <a href="/post_list/{{ i.id }}/delete/" class="btn btn-primary">Удалить</a>
@@ -9,4 +9,3 @@
     </div>
   {% endfor %}
 </div>
-{% include '../footer.html' %}

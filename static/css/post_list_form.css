@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+p, h3 {margin: 0}
+.post {
+  width: 300px;
+  margin: 50px auto 0;
+  position: relative;
+  background: white;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+  border-radius: 3px;
+  font-family: 'Scada', sans-serif;
+}
+.post-top {
+  min-height: 45px;
+  position: relative;
+  overflow: hidden;
+}
+.post-top a {
+  text-decoration: none;
+  display: block;
+}
+.post-top-img {
+  border-radius: 3px 3px 0 0;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+.post-top-angle {
+  width: 180px;
+  height: 30px;
+  line-height: 30px;
+  position: absolute;
+  top: 20px;
+  right: -50px;
+  transform:rotate(45deg);
+  color: #fefefe;
+  text-align: center;
+  background: #F8CF82;
+  font-size: 16px;
+  font-weight:bold;
+}
+.post-top-price {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  text-align: right;
+}
+.post-top-price span {
+display: inline-block;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 20px;
+  background: #F8CF82;
+  border-radius: 3px 0 0 0;
+  color: #fefefe;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.post-top-price:after {
+  content: " ";
+  display: block;
+  height: 5px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #F8CF82;
+}
+.post-content {
+  padding: 20px;
+  font-family: 'Scada', sans-serif;
+}
+.post-content h3 {
+  font-size: 1.5em;
+}
+.post-content p {
+  margin-top: 10px;
+  color: #6e6e6e;
+  line-height: 1.5em;
+}

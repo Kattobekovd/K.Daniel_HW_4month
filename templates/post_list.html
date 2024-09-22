@@ -1,4 +1,6 @@
+{% load static %}
 {% include 'header.html' %}
+<link rel="stylesheet" href="{% static 'css/post_list_form.css' %}">
 
 <style>
   body {
@@ -8,19 +10,22 @@
 
 <h1 class="text-center">Магазин книг</h1>
 
-<div class="d-flex justify-content-center flex-wrap">
-  {% for i in post_object %}
-    <div class="card m-3 text-center" style="width: 18rem; background-color: #d5b6dd;">
-      <img src="{{ i.image.url }}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">{{ i.title }}</h5>
-        <p>ЦЕНА: {{ i.price }} сом</p>
-        <p class="card-text">АВТОР КНИГИ: {{ i.author_the_book }}</p>
-        <p>ЖАНР: {{ i.genre }}</p>
-        <a href="/post_list/{{ i.id }}/" class="btn btn-primary">Подробнее</a>
-      </div>
-    </div>
-  {% endfor %}
+{% for i in post_object %}
+<div class="post">
+  <div class="post-top">
+    <a href="#">
+      <img src="{{ i.image.url }}" class="post-top-img">
+    </a>
+    <p  src="{{ i.post_id.discount }}" class="post-top-angle" ></p>
+    <p class="post-top-price"><span>Цена {{ i.price }} &#8381;</span></p>
+  </div>
+  <div class="post-content">
+    <p class="card-text">{{ i.author_the_book }}</p>
+    <h3>{{ i.title }}</h3>
+    <a href="/post_list/{{ i.id }}/" class="btn btn-primary">Подробнее</a>
+  </div>
 </div>
+{% endfor %}
+
 
 {% include 'footer.html' %}
