@@ -1,0 +1,20 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/register_form.css' %}" xmlns="http://www.w3.org/1999/html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<center>
+<h1>Регистрация</h1>
+</center>
+<form class="form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+  <button class="btn" type="submit">Регистрация</button>
+</form>
+
+</body>
+</html>

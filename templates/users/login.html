@@ -1,0 +1,15 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/register_form.css' %}">
+<br><br><br>
+
+<center>
+<h1>Авторицазия</h1>
+</center>
+<form class="form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+  <button class="btn" type="submit">Войти</button>
+</form>
+
+</body>
+</html>
