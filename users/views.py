@@ -1,10 +1,13 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 from . import models, middlewares, forms
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 class RegistrationView(CreateView):
     form_class = forms.CustomRegisterForm
     template_name = 'users/register.html'
@@ -24,6 +27,7 @@ class RegistrationView(CreateView):
         self.object.save()
         return response
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 class AuthLoginView(LoginView):
     template_name = 'users/login.html'
     form_class = AuthenticationForm
@@ -31,10 +35,11 @@ class AuthLoginView(LoginView):
     def get_success_url(self):
         return reverse('users:user_list')
 
-
+@method_decorator(cache_page(60 *15), name='dispatch')
 class AuthLogoutView(LogoutView):
     next_page = reverse_lazy('users:login')
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 class UserListView(ListView):
     template_name = 'users/user_list.html'
     model = models.CustomUser

@@ -1,6 +1,10 @@
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 from . import models
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 def cloths_list_view(request):
     if request.method == 'GET':
         cloth_adults = models.Cloth.objects.filter(tags__name='Для взрослых').order_by('-id')

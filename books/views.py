@@ -1,9 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from datetime import datetime
+
+from django.utils.decorators import method_decorator
 from django.views import generic
+from django.views.decorators.cache import cache_page
+
 from . import models, forms
 
+
+@method_decorator(cache_page(60 *15), name='dispatch')
 # Функция на кнопку Поиск по названием книг
 class SearchView(generic.ListView):
     template_name = 'post_list.html'
@@ -19,6 +25,7 @@ class SearchView(generic.ListView):
         return context
 
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 #Редактирование crud, получение список постов
 class BookUpdateListView(generic.ListView):
     template_name = 'crud/book_list_edit.html'
@@ -29,6 +36,7 @@ class BookUpdateListView(generic.ListView):
         return self.model.objects.all().order_by('id')
 
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 #ЗДесь функция на редактирование обявлений из списка
 class BookEditView(generic.UpdateView):
     template_name = 'crud/book_update.html'
@@ -40,6 +48,7 @@ class BookEditView(generic.UpdateView):
         return get_object_or_404(models.Book, pk=post_id)
 
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 #Удаление crud, здесь мы получаем листы
 class BookListDeleteView(generic.ListView):
     template_name = 'crud/book_list_delete.html'
@@ -49,6 +58,8 @@ class BookListDeleteView(generic.ListView):
     def get_queryset(self):
         return self.model.objects.all().order_by('id')
 
+
+@method_decorator(cache_page(60 *15), name='dispatch')
 # здесь происходит удаление с подтверждением
 class BookDropDeleteView(generic.DeleteView):
     template_name = 'crud/confirm_delete.html'
@@ -59,6 +70,7 @@ class BookDropDeleteView(generic.DeleteView):
         return get_object_or_404(models.Book, id=post_id)
 
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 #Добавление crud
 class BookCreateView(generic.CreateView):
     template_name = 'crud/create_book.html'
@@ -70,6 +82,7 @@ class BookCreateView(generic.CreateView):
         return super(BookCreateView, self).form_valid(form=form)
 
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 # Вывод полной информации
 class PostDetailView(generic.DetailView):
     template_name = 'post_detail.html'
@@ -80,6 +93,7 @@ class PostDetailView(generic.DetailView):
         return get_object_or_404(models.Book, id=post_id)
 
 
+@method_decorator(cache_page(60 *15), name='dispatch')
 # Вывод не полной информации
 class PostLIstView(generic.ListView):
     template_name = 'post_list.html'
@@ -87,7 +101,7 @@ class PostLIstView(generic.ListView):
     model = models.Book
 
     def get_queryset(self):
-        return self.model.objects.all().order_by('id')
+        return self.model.objects.prefetch_related('reviews').all().order_by('id')
 
 
 def about_me_view(request):

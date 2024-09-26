@@ -14,13 +14,12 @@ class CustomUser(User):
         ('middle', 'middle'),
         ('senior', 'senior'),
     )
-    phone_number = models.CharField(max_length=14, default='+996')
+    phone_number = models.CharField(max_length=14, default='+996', db_index=True, null=True)
     age = models.PositiveSmallIntegerField(default=10,
-                                           validators=[MinValueValidator(5),
-                                                       MaxValueValidator(60)])
-    gender = models.CharField(max_length=10, choices=GENDER)
-    experience = models.CharField(max_length=10, choices=EXPERIENCE_CHOICES)
-    level = models.CharField(max_length=100, default='Уровень не определен')
+                                           validators=[MinValueValidator(5), MaxValueValidator(60)], db_index=True, null=True)
+    gender = models.CharField(max_length=10, choices=GENDER, db_index=True, null=True)
+    experience = models.CharField(max_length=10, choices=EXPERIENCE_CHOICES, db_index=True, null=True)
+    level = models.CharField(max_length=100, default='Уровень не определен', db_index=True, null=True)
 
 @receiver(post_save, sender=CustomUser)
 def set_level(sender, instance, created, **kwargs):
