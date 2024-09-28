@@ -1,9 +1,9 @@
-{% include '../header.html' %}
-
-<form action="create_movie" method="POST" enctype="multipart/form-data"  class="decor">
+{% include './header_movie.html' %}
+<<br><br><br>
 <h3>Добавить новость</h3>
     {% csrf_token %}
     {{form.as_p}}
+<div class="form-row">
 <p><input type="submit" value="Добавить"></p>
+</div>
 </form>
-

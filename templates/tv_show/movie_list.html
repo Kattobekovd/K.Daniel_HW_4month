@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% include './header_movie.html' %}
+{% for i in post_object %}
+<h2>{{i.title }}</h2>
+<img src="{{ i.image.url }} "alt="" width="380" height="320">
+<p>{{ i.price }}сом</p>
+<p>{{ i.description }}</p>
+<p>{{ i.genre }}</p>
+<p>{{ i.created_at }}</p>
+
+<a href='#'>Подробнее</a>
+{% endfor %}
+
+</body>
+</html>

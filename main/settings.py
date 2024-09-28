@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'books',
     'shop',
     'users',
+    'parser_app',
+    'tv_show',
 ]
 
 MIDDLEWARE = [
@@ -113,6 +115,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+MEDIA_URL = '/media/'
 STATIC_URL = 'static/'
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 STATICFILES_DIRS = [BASE_DIR / 'static']
